@@ -95,57 +95,50 @@
     '')
   ];
 
-  programs.zsh = {
-    enable = true;
-    dotDir = ".config/zsh";
+  # Home Manager is pretty good at managing dotfiles. The primary way to manage
+  # plain files is through 'home.file'.
+  home.file = {
+    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+    # # symlink to the Nix store copy.
+    # ".screenrc".source = dotfiles/screenrc;
 
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-
-    history.extended = true;
-
-    shellAliases = {
-      ls = "eza --color=automatic --git --group-directories-first --icons";
-      ll = "ls -l";
-      la = "ls -a";
-      lla = "ls -la";
-      tree = "eza --tree";
-      cat = "bat";
-
-      ip = "ip --color";
-      ipb = "ip --color --brief";
-
-      # gac = "git add -A  && git commit -a";
-      # gp = "git push";
-      # gst = "git status -sb";
-
-      htop = "btm -b";
-
-      open = "xdg-open";
-
-      opget = "op item get \"$(op item list --format=json | jq -r '.[].title' | fzf)\"";
-
-      speedtest = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -";
-
-      pkgfiles = "dpkg -L";
-      whichpkg = "dpkg -S";
-      gtree = "git gtree";
-      g10 = "git gtree -10";
-      g20 = "git gtree -20";
-      g30 = "git gtree -30";
-      g40 = "git gtree -40";
-      g50 = "git gtree -50";
-
-      df = "df -kh";
-      du = "du -kh";
-
-      nix = "noglob nix";
-
-    };
-
+    # # You can also set the file content immediately.
+    # ".gradle/gradle.properties".text = ''
+    #   org.gradle.console=verbose
+    #   org.gradle.daemon.idletimeout=3600000
+    # '';
   };
-  # environment.pathsToLink = [ "/share/zsh" ];
+
+  # Home Manager can also manage your environment variables through
+  # 'home.sessionVariables'. If you don't want to manage your shell through Home
+  # Manager then you have to manually source 'hm-session-vars.sh' located at
+  # either
+  #
+  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  /etc/profiles/per-user/jgaines/etc/profile.d/hm-session-vars.sh
+  #
+  home.sessionVariables = {
+    EDITOR = "code";
+    LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
+    NIX_SYSTEM = "x86_64-linux";
+  };
+
+  programs.command-not-found = {
+    enable = true;
+    # This and setting NIX_SYSTEM above seem to be necessary to get the command-not-found
+    # package to work properly.
+    dbPath = "/nix/store/skl6l0k9vc9rpmmr92slxbql1a7cplmr-nixos-23.11-23.11/nixos-23.11/programs.sqlite";
+  };
+
+  programs.direnv.enable = true;
 
   programs.git = {
     enable = true;
@@ -219,6 +212,27 @@
       lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
     };
 
+    ignores = [
+      "__pycache__/"
+      ".cache/"
+      ".coverage"
+      ".envrc"
+      ".idea/"
+      ".mise.toml"
+      ".mypy_cache/"
+      ".pytest_cache/"
+      ".rtx.toml"
+      ".venv/"
+      ".vscode/"
+      "*.code-workspace"
+      "*.py[co]"
+      "*~"
+      "junk/"
+      "steff/"
+      "tags"
+      "TAGS"
+    ];
+
     extraConfig = {
       branch = {
         sort = "-committerdate";
@@ -248,41 +262,61 @@
     };
   };
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
+# Let Home Manager install and manage itself.
+programs.home-manager.enable = true;
 
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+programs.starship.enable = true;
+
+programs.thefuck.enable = true;
+
+programs.zsh = {
+    enable = true;
+    dotDir = ".config/zsh";
+
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+
+    history.extended = true;
+
+    shellAliases = {
+      ls = "eza --color=automatic --git --group-directories-first --icons";
+      ll = "ls -l";
+      la = "ls -a";
+      lla = "ls -la";
+      tree = "eza --tree";
+      cat = "bat";
+
+      ip = "ip --color";
+      ipb = "ip --color --brief";
+
+      # gac = "git add -A  && git commit -a";
+      # gp = "git push";
+      # gst = "git status -sb";
+
+      htop = "btm -b";
+
+      open = "xdg-open";
+
+      opget = "op item get \"$(op item list --format=json | jq -r '.[].title' | fzf)\"";
+
+      speedtest = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -";
+
+      pkgfiles = "dpkg -L";
+      whichpkg = "dpkg -S";
+      gtree = "git gtree";
+      g10 = "git gtree -10";
+      g20 = "git gtree -20";
+      g30 = "git gtree -30";
+      g40 = "git gtree -40";
+      g50 = "git gtree -50";
+
+      df = "df -kh";
+      du = "du -kh";
+
+      nix = "noglob nix";
+    };
   };
+  # environment.pathsToLink = [ "/share/zsh" ];
 
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. If you don't want to manage your shell through Home
-  # Manager then you have to manually source 'hm-session-vars.sh' located at
-  # either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/jgaines/etc/profile.d/hm-session-vars.sh
-  #
-  home.sessionVariables = {
-    EDITOR = "code";
-    LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
-  };
-
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 }
