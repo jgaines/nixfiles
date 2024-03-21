@@ -131,6 +131,44 @@
     NIX_SYSTEM = "x86_64-linux";
   };
 
+  home.shellAliases = {
+    ls = "eza --color=automatic --git --group-directories-first --icons";
+    ll = "ls -l";
+    la = "ls -a";
+    lla = "ls -la";
+    tree = "eza --tree";
+    cat = "bat";
+
+    ip = "ip --color";
+    ipb = "ip --color --brief";
+
+    # gac = "git add -A  && git commit -a";
+    # gp = "git push";
+    # gst = "git status -sb";
+
+    htop = "btm -b";
+
+    open = "xdg-open";
+
+    opget = "op item get \"$(op item list --format=json | jq -r '.[].title' | fzf)\"";
+
+    speedtest = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -";
+
+    pkgfiles = "dpkg -L";
+    whichpkg = "dpkg -S";
+    gtree = "git gtree";
+    g10 = "git gtree -10";
+    g20 = "git gtree -20";
+    g30 = "git gtree -30";
+    g40 = "git gtree -40";
+    g50 = "git gtree -50";
+
+    df = "df -kh";
+    du = "du -kh";
+
+    nix = "noglob nix";
+  };
+
   programs.command-not-found = {
     enable = true;
     # This and setting NIX_SYSTEM above seem to be necessary to get the command-not-found
@@ -278,44 +316,6 @@ programs.zsh = {
     syntaxHighlighting.enable = true;
 
     history.extended = true;
-
-    shellAliases = {
-      ls = "eza --color=automatic --git --group-directories-first --icons";
-      ll = "ls -l";
-      la = "ls -a";
-      lla = "ls -la";
-      tree = "eza --tree";
-      cat = "bat";
-
-      ip = "ip --color";
-      ipb = "ip --color --brief";
-
-      # gac = "git add -A  && git commit -a";
-      # gp = "git push";
-      # gst = "git status -sb";
-
-      htop = "btm -b";
-
-      open = "xdg-open";
-
-      opget = "op item get \"$(op item list --format=json | jq -r '.[].title' | fzf)\"";
-
-      speedtest = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -";
-
-      pkgfiles = "dpkg -L";
-      whichpkg = "dpkg -S";
-      gtree = "git gtree";
-      g10 = "git gtree -10";
-      g20 = "git gtree -20";
-      g30 = "git gtree -30";
-      g40 = "git gtree -40";
-      g50 = "git gtree -50";
-
-      df = "df -kh";
-      du = "du -kh";
-
-      nix = "noglob nix";
-    };
   };
   # environment.pathsToLink = [ "/share/zsh" ];
 
