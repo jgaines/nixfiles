@@ -169,6 +169,8 @@
     nix = "noglob nix";
   };
 
+  programs.broot.enable = true;
+
   programs.command-not-found = {
     enable = true;
     # This and setting NIX_SYSTEM above seem to be necessary to get the command-not-found
