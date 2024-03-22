@@ -21,12 +21,8 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    bat
-    bottom
-    direnv
     duf
     dust
-    eza
     gh
     git-extras
     magic-wormhole
@@ -132,7 +128,7 @@
   };
 
   home.shellAliases = {
-    ls = "eza --color=automatic --git --group-directories-first --icons";
+    ls = "eza";
     ll = "ls -l";
     la = "ls -a";
     lla = "ls -la";
@@ -150,8 +146,10 @@
 
     open = "xdg-open";
 
+    # TODO: no clue what this does
     opget = "op item get \"$(op item list --format=json | jq -r '.[].title' | fzf)\"";
 
+    # TODO: Fix this so it works even if python is not installed.
     speedtest = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -";
 
     pkgfiles = "dpkg -L";
@@ -163,13 +161,17 @@
     g40 = "git gtree -40";
     g50 = "git gtree -50";
 
-    df = "df -kh";
-    du = "du -kh";
-
-    nix = "noglob nix";
+    df = "df -h";
+    du = "du -h";
   };
 
+  programs.bat.enable = true;
+
+  programs.bottom.enable = true;
+
   programs.broot.enable = true;
+
+  programs.btop.enable = true;
 
   programs.command-not-found = {
     enable = true;
@@ -179,6 +181,16 @@
   };
 
   programs.direnv.enable = true;
+
+  programs.eza = {
+    enable = true;
+    git = true;
+    icons = true;
+    extraOptions = [
+      "--color=automatic"
+      "--group-directories-first"
+    ];
+  };
 
   programs.git = {
     enable = true;
@@ -318,6 +330,11 @@ programs.zsh = {
     syntaxHighlighting.enable = true;
 
     history.extended = true;
+
+    shellAliases = {
+      # Need to noglob this so we don't have to quote nixpkgs#program
+      nix = "noglob nix";
+    };
   };
   # environment.pathsToLink = [ "/share/zsh" ];
 
