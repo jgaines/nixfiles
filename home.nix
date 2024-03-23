@@ -59,13 +59,17 @@
     (pkgs.writeShellScriptBin "hm" ''
       case "$1" in
         update|u)
-          nix-channel --update
+          pushd ~/nixfiles > /dev/null
+          nix flake lock
+          popd > /dev/null
           ;;
         switch|sw|s)
           home-manager switch
           ;;
         upgrade|up)
-          nix-channel --update
+          pushd ~/nixfiles > /dev/null
+          nix flake lock
+          popd > /dev/null
           home-manager switch
           ;;
         rollback|rb|r)
@@ -127,7 +131,7 @@
   home.sessionVariables = {
     EDITOR = "code";
     LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
-    NIX_SYSTEM = "${builtins.currentSystem}";
+    # NIX_SYSTEM = "${builtins.currentSystem}";
   };
 
   home.shellAliases = {
