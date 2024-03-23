@@ -16,9 +16,7 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
-    # defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
-    # defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
- 
+    packages.x86_64-linux.default = home-manager.packages.x86_64-linux.default;
     homeConfigurations = {
 	  jgaines = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
