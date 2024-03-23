@@ -25,10 +25,13 @@
     dust
     gh
     git-extras
+    git-up
     magic-wormhole
     neofetch
     nix-direnv
     ripgrep
+    tldr
+    vulnix
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -124,7 +127,7 @@
   home.sessionVariables = {
     EDITOR = "code";
     LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
-    NIX_SYSTEM = "x86_64-linux";
+    NIX_SYSTEM = "${builtins.currentSystem}";
   };
 
   home.shellAliases = {
@@ -318,6 +321,19 @@
 programs.home-manager.enable = true;
 
 programs.starship.enable = true;
+
+# programs.tealdeer = {
+#   enable = true;
+#   settings = {
+#     display = {
+#       compact = true;
+#       use_pager = false;
+#     };
+#     updates = {
+#       auto_update = false;
+#     };
+#   };
+# };
 
 programs.thefuck.enable = true;
 
