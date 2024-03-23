@@ -59,17 +59,13 @@
     (pkgs.writeShellScriptBin "hm" ''
       case "$1" in
         update|u)
-          pushd ~/nixfiles > /dev/null
-          nix flake lock
-          popd > /dev/null
+          nix flake update --flake ~/nixfiles
           ;;
         switch|sw|s)
           home-manager switch
           ;;
         upgrade|up)
-          pushd ~/nixfiles > /dev/null
-          nix flake lock
-          popd > /dev/null
+          nix flake update --flake ~/nixfiles
           home-manager switch
           ;;
         rollback|rb|r)
