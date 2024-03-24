@@ -33,6 +33,7 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    aide
     duf
     dust
     gh
@@ -40,9 +41,13 @@ in
     git-up
     lynis
     magic-wormhole
+    meld
     neofetch
+    (nerdfonts.override { fonts = [ "DroidSansMono" "JetBrainsMono" "SourceCodePro" ]; })
     nix-direnv
+    peco
     ripgrep
+    silver-searcher
     tldr
     vulnix
 
@@ -168,6 +173,8 @@ in
 
     df = "df -h";
     du = "du -h";
+
+    showpath = "echo $PATH | tr ':' '\\n'";
   };
 
   programs.bat.enable = true;
@@ -320,20 +327,12 @@ in
 # Let Home Manager install and manage itself.
 programs.home-manager.enable = true;
 
-programs.starship.enable = true;
-
-# programs.tealdeer = {
-#   enable = true;
-#   settings = {
-#     display = {
-#       compact = true;
-#       use_pager = false;
-#     };
-#     updates = {
-#       auto_update = false;
-#     };
-#   };
-# };
+programs.starship = {
+  enable = true;
+  settings = {
+    add_newline = false;
+  };
+};
 
 programs.thefuck.enable = true;
 
@@ -341,17 +340,35 @@ programs.zsh = {
     enable = true;
     dotDir = ".config/zsh";
 
+    autocd = true;
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    defaultKeymap = "emacs";
 
-    history.extended = true;
+    history = {
+      extended = true;
+      ignoreDups = true;
+    };
 
     shellAliases = {
       # Need to noglob this so we don't have to quote nixpkgs#program
       nix = "noglob nix";
     };
 
+    shellGlobalAliases = {
+      B = "|bat";
+      C = "|wc";
+      E = "|egrep";
+      G = "|grep";
+      H = "|head";
+      L = "|less";
+      P = "|peco";
+      S = "|sort";
+      T = "|tail";
+      U = "|uniq";
+      X = "|xargs";
+    };
   };
   # environment.pathsToLink = [ "/share/zsh" ];
 
