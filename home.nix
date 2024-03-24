@@ -51,13 +51,18 @@ in
     tldr
     vulnix
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    (writeShellScriptBin "edit" ''
+      # Check if the DISPLAY environment variable is set
+      if [[ -z "''${DISPLAY}" ]]; then
+        # DISPLAY is not set, likely a non-graphical environment, launch nano
+        nano "$@"
+      else
+        # DISPLAY is set, graphical environment detected, launch VS Code
+        code "$@"
+      fi
+    '')
 
-    (pkgs.writeShellScriptBin "hm" ''
+    (writeShellScriptBin "hm" ''
       case "$1" in
         check|c)
           nix flake check ~/nixfiles
@@ -132,7 +137,8 @@ in
   #  /etc/profiles/per-user/jgaines/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "code";
+    # TODO: make editor be some script that runs nano or code.
+    EDITOR = "edit";
     LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
     # NIX_SYSTEM = "${builtins.currentSystem}";
   };
@@ -188,6 +194,19 @@ in
   programs.command-not-found = {
     enable = true;
     dbPath = programs-sqlite;
+  };
+
+  programs.chromium = {
+    enable = true;
+    dictionaries = [
+      pkgs.hunspellDictsChromium.en_US
+    ];
+    extensions = [
+      { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock origin
+      { id = "hdokiejnpimakedhajhdlcegeplioahd"; } # lastpass
+      { id = "ldpochfccmkkmhdbclfhpagapcfdljkj"; } # decentraleyes
+      { id = "fdpohaocaechififmbbbbbknoalclacl"; } # gofullpage
+    ];
   };
 
   programs.direnv.enable = true;
@@ -256,17 +275,13 @@ in
       type = "cat-file -t";
       uncommit = "reset --soft HEAD^";
       unstage = "reset HEAD --";
-      visual = "!gitk &";
+      # visual = "!gitk &";
       apull = "pull --rebase-merges";
       amerge = "merge --ff-only";
-      post = "!rbt post -sog --target-groups eng-tools";
-      repost = "!rbt post -r";
-      close = "!rbt close --close-type submitted --description \"Committed as $(git log -1 --abbrev-commit --pretty=oneline)\"";
       graph = "log --graph --oneline --decorate=short";
       tree = "log --pretty='format:%w(120,0,24)%>|(24)%cd %C(auto)%d %s (%cn)' --date='format:%F %H:%M' --graph --branches --remotes";
       gtree = "log --graph --branches --remotes --date='format:%F %H:%M' --pretty='format:%w(120,0,24)%C(auto)%cd %h%d %s (%cn)'";
       gtree-old = "log --graph --oneline --decorate=short --branches --remotes";
-      fixdiff = "rbt patch -R 57565 post --diff-only -r";
       empty = "commit --allow-empty -m 'Empty commit'";
       who = "!git-who";
       bp = "big-picture";
@@ -327,6 +342,11 @@ in
 # Let Home Manager install and manage itself.
 programs.home-manager.enable = true;
 
+programs.kitty = {
+  enable = true;
+  shellIntegration.enableZshIntegration = true;
+};
+
 programs.starship = {
   enable = true;
   settings = {
@@ -335,6 +355,36 @@ programs.starship = {
 };
 
 programs.thefuck.enable = true;
+
+programs.vscode = {
+  enable = true;
+  package = pkgs.vscode-fhs;
+  # Look here for more examples:
+  # https://github.com/DavSanchez/nix-dotfiles
+  extensions = with pkgs.vscode-extensions; [
+    alefragnani.project-manager
+    bbenoist.nix
+    charliermarsh.ruff
+    codezombiech.gitignore
+    donjayamanne.githistory
+    github.copilot
+    github.copilot-chat
+    kahole.magit
+    mechatroner.rainbow-csv
+    mhutchie.git-graph
+    mikestead.dotenv
+    ms-python.python
+    ms-python.vscode-pylance
+    ms-vscode-remote.remote-containers
+    ms-vscode-remote.remote-ssh
+    oderwat.indent-rainbow
+    stkb.rewrap
+    waderyan.gitblame
+  ];
+  # userSettings = ''
+  #   "[nix]"."editor.tabSize" = 2;
+  # '';
+};
 
 programs.zsh = {
     enable = true;

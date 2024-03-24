@@ -12,7 +12,34 @@
   outputs = {nixpkgs, home-manager, ... }:
   let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    red-latest = final: prev: {
+      # Well, this is properly formed and all, but it doesn't work.
+      # I'm thinking it's because REBOL is such a piece of crap.
+      # And it might have something to do with the fact that I'm not
+      # running on nixos.
+      # nix run nixpkgs#nurl -- https://github.com/red/red
+      red = prev.red.overrideAttrs (old: {
+        pname = "red-latest";
+        version = "0.6.5";
+        src = prev.fetchFromGitHub {
+          owner = "red";
+          repo = "red";
+          rev = "181d7faeab0381d7a86575847918a4ab05e68503";
+          hash = "sha256-QD4dtwH5R2kD7yLFYo0n1aQ063KoBcfoAhG3RqVlxco=";
+        };
+      });
+    };
+    pkgs = import nixpkgs {
+      inherit system;
+      config = {
+        allowUnfree = true;
+        allowBroken = false;
+      };
+      overlays = [
+        # red-latest
+      ];
+    };
+
   in {
     packages.x86_64-linux.default = home-manager.packages.x86_64-linux.default;
     homeConfigurations."jgaines" = home-manager.lib.homeManagerConfiguration {
