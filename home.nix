@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 let
+  # These two are here to install a database for the command-not-found program.
   # To find the url go to https://releases.nixos.org, pick a version
   # and drill down til you find the nixexprs.tar.xz file.
   nixos_tarball = pkgs.fetchzip {
@@ -33,13 +34,11 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    aide
     duf
     dust
     gh
     git-extras
     git-up
-    lynis
     magic-wormhole
     meld
     neofetch
@@ -49,7 +48,6 @@ in
     ripgrep
     silver-searcher
     tldr
-    vulnix
 
     (writeShellScriptBin "edit" ''
       # Check if the DISPLAY environment variable is set
@@ -125,19 +123,12 @@ in
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
   # Manager then you have to manually source 'hm-session-vars.sh' located at
   # either
-  #
   #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
   # or
-  #
   #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
   # or
-  #
   #  /etc/profiles/per-user/jgaines/etc/profile.d/hm-session-vars.sh
-  #
   home.sessionVariables = {
-    # TODO: make editor be some script that runs nano or code.
     EDITOR = "edit";
     LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
     # NIX_SYSTEM = "${builtins.currentSystem}";
@@ -154,10 +145,6 @@ in
     ip = "ip --color";
     ipb = "ip --color --brief";
 
-    # gac = "git add -A  && git commit -a";
-    # gp = "git push";
-    # gst = "git status -sb";
-
     htop = "btm -b";
 
     open = "xdg-open";
@@ -166,7 +153,7 @@ in
     opget = "op item get \"$(op item list --format=json | jq -r '.[].title' | fzf)\"";
 
     # TODO: Fix this so it works even if python is not installed.
-    speedtest = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -";
+    speedtest = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -";
 
     pkgfiles = "dpkg -L";
     whichpkg = "dpkg -S";
