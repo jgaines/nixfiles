@@ -1,4 +1,16 @@
 { config, pkgs, ... }:
+let
+  # To find the url go to https://releases.nixos.org, pick a version
+  # and drill down til you find the nixexprs.tar.xz file.
+  nixos_tarball = pkgs.fetchzip {
+    url = "https://releases.nixos.org/nixos/23.11/nixos-23.11.928.50aa30a13c4a/nixexprs.tar.xz";
+    sha256 = "sha256-LDuZkDYZHDYPjJRd6D6NgOx99BNFtFCWfvym2Ishqyo=";
+  };
+  # extract only the sqlite file
+  programs-sqlite = pkgs.runCommand "program.sqlite" {} ''
+    cp ${nixos_tarball}/programs.sqlite $out
+  '';
+in
 {
   # imports = [
   #   ./git.nix
@@ -26,6 +38,7 @@
     gh
     git-extras
     git-up
+    lynis
     magic-wormhole
     neofetch
     nix-direnv
@@ -39,40 +52,28 @@
     # # fonts?
     # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-    # (pkgs.writeShellScriptBin "hm-update" ''
-    #   pushd ~/nix > /dev/null
-    #   nix flake update
-    #   popd > /dev/null
-    # '')
-
-    # (pkgs.writeShellScriptBin "hm-switch" ''
-    #   pushd ~ > /dev/null
-    #   home-manager switch --flake "nix/#$USER"
-    #   popd > /dev/null
-    # '')
-
-    # (pkgs.writeShellScriptBin "hm-upgrade" ''
-    #   hm-update
-    #   hm-switch
-    # '')
-
     (pkgs.writeShellScriptBin "hm" ''
       case "$1" in
+        check|c)
+          nix flake check ~/nixfiles
+          ;;
         update|u)
           nix flake update --flake ~/nixfiles
           ;;
         switch|sw|s)
-          home-manager switch
+          nix run ~/nixfiles switch
+          # home-manager switch
           ;;
         upgrade|up)
           nix flake update --flake ~/nixfiles
-          home-manager switch
+          nix run ~/nixfiles switch
+          # home-manager switch
           ;;
-        rollback|rb|r)
-          pushd ~ > /dev/null
-          home-manager rollback
-          popd > /dev/null
-          ;;
+        # rollback|rb|r)
+        #   pushd ~ > /dev/null
+        #   home-manager rollback
+        #   popd > /dev/null
+        #   ;;
         generations|gen|g)
           home-manager generations
           ;;
@@ -83,10 +84,11 @@
           echo "Usage: hm [command]"
           echo ""
           echo "Commands:"
+          echo "  check|c                Check the flake for errors"
           echo "  list|ls|l|packages|p   List all packages managed by Home Manager"
           echo "  generations|gen|g      List all generations of the configuration"
           echo "  switch|sw|s            Switch to the new configuration"
-          echo "  rollback|rb|r          Rollback to the previous configuration"
+          # echo "  rollback|rb|r          Rollback to the previous configuration"
           echo "  upgrade|up             Update the flake and switch to the new configuration"
           echo "  update|u               Update the flake"
           ;;
@@ -178,9 +180,7 @@
 
   programs.command-not-found = {
     enable = true;
-    # This and setting NIX_SYSTEM above seem to be necessary to get the command-not-found
-    # package to work properly.
-    dbPath = "/nix/store/skl6l0k9vc9rpmmr92slxbql1a7cplmr-nixos-23.11-23.11/nixos-23.11/programs.sqlite";
+    dbPath = programs-sqlite;
   };
 
   programs.direnv.enable = true;
@@ -351,6 +351,7 @@ programs.zsh = {
       # Need to noglob this so we don't have to quote nixpkgs#program
       nix = "noglob nix";
     };
+
   };
   # environment.pathsToLink = [ "/share/zsh" ];
 
