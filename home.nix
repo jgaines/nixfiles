@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   # These two are here to install a database for the command-not-found program.
   # To find the url go to https://releases.nixos.org, pick a version
@@ -193,6 +193,9 @@ in
       { id = "hdokiejnpimakedhajhdlcegeplioahd"; } # lastpass
       { id = "ldpochfccmkkmhdbclfhpagapcfdljkj"; } # decentraleyes
       { id = "fdpohaocaechififmbbbbbknoalclacl"; } # gofullpage
+      # lib.mkIf (config.gui.enable) {
+      #   id = "cimiefiiaegbelhefglklhhakcgmhkai"; # plasma integration
+      # }
     ];
   };
 

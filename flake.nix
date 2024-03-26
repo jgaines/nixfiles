@@ -2,16 +2,20 @@
   description = "jgaines Home Manager flake";
 
   inputs = {
+    # Used for system packages
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    # Used for user packages and dotfiles
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
   };
 
-  outputs = {nixpkgs, home-manager, ... }:
+  outputs = {nixpkgs, home-manager, ... }@inputs:
   let
     system = "x86_64-linux";
+  
     red-latest = final: prev: {
       # Well, this is properly formed and all, but it doesn't work.
       # I'm thinking it's because REBOL is such a piece of crap.
@@ -40,7 +44,17 @@
       ];
     };
 
+    globals = let baseName = "jgaines.com";
+    in rec {
+      user = "jgaines";
+      fullName = "John Gaines";
+      gitName = fullName;
+      gitEmail = "me@jgaines.com";
+      dotfilesRepo = "https://github.com/jgaines/nixfiles";
+    }; 
+
   in {
+
     packages.x86_64-linux.default = home-manager.packages.x86_64-linux.default;
     homeConfigurations."jgaines" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
