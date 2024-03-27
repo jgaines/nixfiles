@@ -30,6 +30,7 @@ Just a bunch of random links which I'm using as documentation, inspiration, etc.
 * https://github.com/MatthewCroughan/nixcfg
 * https://github.com/DavSanchez/nix-dotfiles
 * https://github.com/wiltaylor/dotfiles
+* https://github.com/wimpysworld/nix-config
 
 ### Alternates
 
