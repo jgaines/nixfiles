@@ -41,6 +41,9 @@ Provide alternate front-ends to the standard nix commands.
   required.
 * [devenv](https://devenv.sh/) - Fast, Declarative, Reproducible, and Composable
   Developer Environments using Nix
+* [distrobox](https://distrobox.it/) - Simply put it’s a fancy wrapper around
+  podman, docker or lilipod to create and start containers highly integrated
+  with the hosts.
 * [Tvix](https://tvix.dev) is a new implementation of Nix, a purely-functional
   package manager. It aims to have a modular implementation, in which different
   components can be reused or replaced based on the use-case.
