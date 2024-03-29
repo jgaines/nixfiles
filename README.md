@@ -7,6 +7,7 @@ This repo contains Nix files containing configuration for my home and work compu
 
 Just a bunch of random links which I'm using as documentation, inspiration, etc.
 
+* https://zero-to-nix.com/
 * https://flake.parts
 * https://search.nixos.org
 * https://github.com/nix-community/nixos-vscode-server
@@ -14,13 +15,15 @@ Just a bunch of random links which I'm using as documentation, inspiration, etc.
 * https://github.com/elitak/nixos-infect
 * https://nixos.org/guides/nix-pills/
 * https://flakehub.com/
-* https://zero-to-nix.com/
 * https://nix-community.github.io/home-manager/options.xhtml
 * https://tech.aufomm.com/my-nix-journey-use-nix-with-ubuntu
 * https://www.tweag.io/blog/2022-09-29-the-nix-book-report/
 * https://nixos-and-flakes.thiscute.world/
 * https://github.com/F1bonacc1/process-compose#-launcher
 * https://colmena.cli.rs/unstable/introduction.html
+* https://librephoenix.com/2023-10-08-why-you-should-use-nixos.html
+* https://mynixos.com/
+
 
 ### Dotfile Repos
 
@@ -31,6 +34,7 @@ Just a bunch of random links which I'm using as documentation, inspiration, etc.
 * https://github.com/DavSanchez/nix-dotfiles
 * https://github.com/wiltaylor/dotfiles
 * https://github.com/wimpysworld/nix-config
+* https://gitlab.com/librephoenix/nixos-config
 
 ### Alternates
 
@@ -47,3 +51,11 @@ Provide alternate front-ends to the standard nix commands.
 * [Tvix](https://tvix.dev) is a new implementation of Nix, a purely-functional
   package manager. It aims to have a modular implementation, in which different
   components can be reused or replaced based on the use-case.
+
+### Random Other Things
+
+Random things I've encountered during my journey to nix enlightenment that I'd
+like to look at later.
+
+* https://just.systems
+* https://www.nushell.sh

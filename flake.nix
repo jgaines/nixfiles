@@ -3,7 +3,7 @@
 
   inputs = {
     # Used for system packages
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "nixpkgs/nixpkgs-unstable";
     # Used for user packages and dotfiles
     home-manager = {
       url = "github:nix-community/home-manager";
