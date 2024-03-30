@@ -2,6 +2,18 @@
 
 This repo contains Nix files containing configuration for my home and work computers.  It's a WIP as I'm working towards capturing my current manual setups in Nix.
 
+## Systems
+
+The systems I intend to support in these scripts are:
+
+| System              | OS                | Notes                            |
+|---------------------|-------------------|----------------------------------|
+| jgaines-test-nixos  | NixOS             | VM for initial setup and testing |
+| jgaines-Desktop     | Linux Mint 21.3   | Home computer                    |
+| jgaines.localdomain | Pop!_OS 22.04 LTS | Work laptop                      |
+
+My work laptop will eventually be the only one still running a stand-alone
+Home-Manager on top of a non-NixOS.
 
 ## Links
 

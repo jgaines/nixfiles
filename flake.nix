@@ -1,11 +1,15 @@
 {
   description = "jgaines flake";
 
-  outputs = inputs@{self, nixpkgs, nixpkgs-stable, home-manager, stylix, blocklist-hosts, hyprland-plugins, ...}:
+  outputs = inputs@{self, nixpkgs, nixpkgs-stable, home-manager,
+                    stylix, blocklist-hosts, hyprland-plugins, ...}:
   let
+    # TODO: figure out how to get as much of this as possible from the system.
+    # Even if we're logged into a live ISO environment, doing a manual install,
+    # some of this stuff should be able to be determined from the system.
     systemSettings = {
       system = "x86_64-linux";
-      hostname = "jgaines-test-nixos";
+      hostname = "jgaines-test-nixos";  # can we read this from the system?
       profile = "personal";
       timezone = "America/Detroit";
       locale = "en_US.UTF-8";
