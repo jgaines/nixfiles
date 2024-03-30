@@ -96,7 +96,6 @@
     packages = with pkgs; [
       chromium
       firefox
-      kate
     ];
     uid = 1000;
   };
@@ -112,6 +111,7 @@
     bat
     curl
     eza
+    git
     htop
     jq
     ripgrep

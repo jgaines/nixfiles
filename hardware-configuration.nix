@@ -9,13 +9,18 @@
     ];
 
   boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/ffa7fd0d-fa79-433a-b742-26963a4914f3";
+    { device = "/dev/disk/by-label/NIXROOT";
       fsType = "ext4";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-label/NIXBOOT";
+      fsType = "vfat";
     };
 
   swapDevices = [ ];
