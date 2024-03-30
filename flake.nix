@@ -1,72 +1,107 @@
 {
-  description = "jgaines Home Manager flake";
+  description = "jgaines flake";
 
-  inputs = {
-    # Used for system packages
-    nixpkgs.url = "nixpkgs/nixpkgs-unstable";
-    # Used for user packages and dotfiles
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    
-  };
-
-  outputs = {nixpkgs, home-manager, ... }@inputs:
+  outputs = inputs@{self, nixpkgs, nixpkgs-stable, home-manager, stylix, blocklist-hosts, hyprland-plugins, ...}:
   let
-    system = "x86_64-linux";
-  
-    red-latest = final: prev: {
-      # Well, this is properly formed and all, but it doesn't work.
-      # I'm thinking it's because REBOL is such a piece of crap.
-      # And it might have something to do with the fact that I'm not
-      # running on nixos.
-      # nix run nixpkgs#nurl -- https://github.com/red/red
-      red = prev.red.overrideAttrs (old: {
-        pname = "red-latest";
-        version = "0.6.5";
-        src = prev.fetchFromGitHub {
-          owner = "red";
-          repo = "red";
-          rev = "181d7faeab0381d7a86575847918a4ab05e68503";
-          hash = "sha256-QD4dtwH5R2kD7yLFYo0n1aQ063KoBcfoAhG3RqVlxco=";
-        };
-      });
+    systemSettings = {
+      system = "x86_64-linux";
+      hostname = "jgaines-test-nixos";
+      profile = "personal";
+      timezone = "America/Detroit";
+      locale = "en_US.UTF-8";
+      bootMode = "bios"; # uefi or bios
+      bootMountPoint = ""; # mount path for efi boot partition; only used for uefi boot mode
+      grubDevice = "/dev/vda"; # device identifier for grub; only used for legacy (bios) boot mode
     };
+
+    userSettings = rec {
+      username = "jgaines"; # username
+      name = "John Gaines"; # name/identifier
+      email = "me@jgaines.com"; # email (used for certain configurations)
+      dotfilesDir = "~/nixfiles"; # absolute path of the local repo
+      theme = "uwunicorn-yt"; # selcted theme from my themes directory (./themes/)
+      wm = "hyprland"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
+      # window manager type (hyprland or x11) translator
+      wmType = if (wm == "hyprland") then "wayland" else "x11";
+      browser = "chromium"; # Default browser; must select one from ./user/app/browser/
+      term = "kitty"; # Default terminal command;
+      font = "Intel One Mono"; # Selected font
+      fontPkg = pkgs.intel-one-mono; # Font package
+      editor = "nano"; # Default editor;
+      };
+
+    lib = nixpkgs.lib;
+    system = "x86_64-linux";
+    # pkgs = nixpkgs.legacyPackages.${system};
     pkgs = import nixpkgs {
-      inherit system;
+      system = systemSettings.system;
       config = {
         allowUnfree = true;
-        allowBroken = false;
+        allowUnfreePredicate = (_: true);
       };
-      overlays = [
-        # red-latest
-      ];
+    };
+    pkgs-stable = import nixpkgs-stable {
+      system = systemSettings.system;
+      config = {
+        allowUnfree = true;
+        allowUnfreePredicate = (_: true);
+      };
     };
 
-    globals = let baseName = "jgaines.com";
-    in rec {
-      user = "jgaines";
-      fullName = "John Gaines";
-      gitName = fullName;
-      gitEmail = "me@jgaines.com";
-      dotfilesRepo = "https://github.com/jgaines/nixfiles";
-    }; 
-
   in {
+    homeConfigurations = {
+      jgaines = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          ./home.nix
+        ];
+        extraSpecialArgs = {
+          inherit nixpkgs-stable;
+          inherit systemSettings;
+          inherit userSettings;
+          inherit (inputs) stylix;
+          inherit (inputs) hyprland-plugins;
+        };
+      };
+    };
 
-    packages.x86_64-linux.default = home-manager.packages.x86_64-linux.default;
-    homeConfigurations."jgaines" = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
+    nixosConfigurations = {
+      jgaines-test-nixos = lib.nixosSystem {
+        system = systemSettings.system;
+        modules = [
+          ./configuration.nix
+        ];
+        specialArgs = {
+          inherit systemSettings;
+          inherit userSettings;
+          inherit (inputs) stylix;
+          inherit (inputs) blocklist-hosts;
+        };
+      };
+    };
 
-      # Specify your home configuration modules here, for example,
-      # the path to your home.nix.
-      modules = [
-        ./home.nix
-      ];
+  };
 
-      # Optionally use extraSpecialArgs
-      # to pass through arguments to home.nix
+  inputs = {
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+
+    nixpkgs-stable.url = "nixpkgs/nixos-23.11";
+
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    stylix.url = "github:danth/stylix";
+
+    blocklist-hosts = {
+      url = "github:StevenBlack/hosts";
+      flake = false;
+    };
+
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      flake = false;
     };
   };
 }

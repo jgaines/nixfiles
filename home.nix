@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, userSettings, lib, ... }:
 let
   # These two are here to install a database for the command-not-found program.
   # To find the url go to https://releases.nixos.org, pick a version
@@ -19,8 +19,8 @@ in
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "jgaines";
-  home.homeDirectory = "/home/jgaines";
+  home.username = userSettings.username;
+  home.homeDirectory = "/home/${userSettings.username}";
   
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -195,6 +195,7 @@ in
       { id = "hdokiejnpimakedhajhdlcegeplioahd"; } # lastpass
       { id = "ldpochfccmkkmhdbclfhpagapcfdljkj"; } # decentraleyes
       { id = "fdpohaocaechififmbbbbbknoalclacl"; } # gofullpage
+      # this could go in a plasma specific file
       # lib.mkIf (config.gui.enable) {
       #   id = "cimiefiiaegbelhefglklhhakcgmhkai"; # plasma integration
       # }
@@ -216,8 +217,8 @@ in
   programs.git = {
     enable = true;
 
-    userEmail = "me@jgaines.com";
-    userName = "John Gaines";
+    userEmail = userSettings.email;
+    userName = userSettings.name;
 
     # When the working directory is under ~/code/canonical then sign-off commits
     # with Canonical email address.
