@@ -34,13 +34,17 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    chatgpt-cli
     devenv
+    difftastic
     discord
     duf
     dust
-    gh
+    # gh
+    gh-copilot
     git-extras
     git-up
+    # github-copilot-cli
     magic-wormhole
     meld
     neofetch
@@ -211,8 +215,28 @@ in
     ];
   };
 
+  programs.gh = {
+    enable = true;
+    extensions = with pkgs; [
+      gh-dash
+      gh-eco
+      gh-markdown-preview
+      gh-poi
+    ];
+    settings = {
+      git_protocol = "ssh";
+      prompt = "enabled";
+      aliases = {
+        co = "pr checkout";
+        pv = "pr view";
+      };
+      editor = "edit";
+    };
+  };
+
   programs.git = {
     enable = true;
+    difftastic.enable = true;
 
     userEmail = userSettings.email;
     userName = userSettings.name;

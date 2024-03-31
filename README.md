@@ -72,3 +72,4 @@ like to look at later.
 
 * https://just.systems
 * https://www.nushell.sh
+* https://github.com/Alfex4936/Bard-rs (Gemini FKA Bard CLI)
