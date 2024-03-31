@@ -195,10 +195,7 @@ in
       { id = "hdokiejnpimakedhajhdlcegeplioahd"; } # lastpass
       { id = "ldpochfccmkkmhdbclfhpagapcfdljkj"; } # decentraleyes
       { id = "fdpohaocaechififmbbbbbknoalclacl"; } # gofullpage
-      # this could go in a plasma specific file
-      # lib.mkIf (config.gui.enable) {
-      #   id = "cimiefiiaegbelhefglklhhakcgmhkai"; # plasma integration
-      # }
+      { id = "cimiefiiaegbelhefglklhhakcgmhkai"; } # plasma integration -  this should go in a plasma specific file
     ];
   };
 
@@ -340,6 +337,12 @@ programs.kitty = {
   shellIntegration.enableZshIntegration = true;
 };
 
+# programs.neovim = {
+#   enable = true;
+#   viAlias = true;
+#   vimAlias = true;
+# };
+
 programs.starship = {
   enable = true;
   settings = {
@@ -374,9 +377,11 @@ programs.vscode = {
     stkb.rewrap
     waderyan.gitblame
   ];
-  # userSettings = ''
-  #   "[nix]"."editor.tabSize" = 2;
-  # '';
+  userSettings = {
+    "[nix]"."editor.tabSize" = 2;
+    "editor.fontSize" = 12;
+    "window.menuBarVisibility" = "toggle";
+  };
 };
 
 programs.zsh = {

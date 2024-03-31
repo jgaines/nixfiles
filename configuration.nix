@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, systemSettings, userSettings, ... }:
+{ config, pkgs, lib, systemSettings, userSettings, kickstart-nix-nvim, ... }:
 
 {
   imports =
@@ -49,6 +49,7 @@
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+  programs.chromium.enablePlasmaBrowserIntegration = true;
 
   # Resize display to match client window
   services.spice-autorandr.enable = true;
@@ -105,6 +106,10 @@
 
   nix.settings.experimental-features = [ "flakes" "nix-command" "repl-flake" ];
 
+  nixpkgs.overlays = [
+    kickstart-nix-nvim.overlays.default
+  ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -114,6 +119,7 @@
     git
     htop
     jq
+    nvim-pkg
     ripgrep
     silver-searcher
     tree

@@ -2,7 +2,7 @@
   description = "jgaines flake";
 
   outputs = inputs@{self, nixpkgs, nixpkgs-stable, home-manager,
-                    stylix, blocklist-hosts, hyprland-plugins, ...}:
+                    stylix, blocklist-hosts, hyprland-plugins, kickstart-nix-nvim, ...}:
   let
     # TODO: figure out how to get as much of this as possible from the system.
     # Even if we're logged into a live ISO environment, doing a manual install,
@@ -78,6 +78,7 @@
           inherit userSettings;
           inherit (inputs) stylix;
           inherit (inputs) blocklist-hosts;
+          inherit (inputs) kickstart-nix-nvim;
         };
       };
     };
@@ -104,6 +105,11 @@
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       flake = false;
+    };
+
+    kickstart-nix-nvim = {
+      url = "github:jgaines/kickstart-nix.nvim";
+      flake = true;
     };
   };
 }
