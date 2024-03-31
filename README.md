@@ -36,7 +36,6 @@ Just a bunch of random links which I'm using as documentation, inspiration, etc.
 * https://librephoenix.com/2023-10-08-why-you-should-use-nixos.html
 * https://mynixos.com/
 
-
 ### Dotfile Repos
 
 * https://github.com/nmasur/dotfiles
@@ -46,6 +45,8 @@ Just a bunch of random links which I'm using as documentation, inspiration, etc.
 * https://github.com/DavSanchez/nix-dotfiles
 * https://github.com/wiltaylor/dotfiles
 * https://github.com/wimpysworld/nix-config
+* https://github.com/gvolpe/nix-config  (look at secrets setup and neovim chatgpt)
+* https://github.com/MatthiasBenaets/nixos-config (neovim configs + python lsp)
 * https://gitlab.com/librephoenix/nixos-config
 
 ### Alternates
