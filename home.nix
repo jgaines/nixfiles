@@ -41,7 +41,6 @@ in
     duf
     dust
     # gh
-    gh-copilot
     git-extras
     git-up
     # github-copilot-cli
@@ -218,6 +217,7 @@ in
   programs.gh = {
     enable = true;
     extensions = with pkgs; [
+      gh-copilot
       gh-dash
       gh-eco
       gh-markdown-preview
