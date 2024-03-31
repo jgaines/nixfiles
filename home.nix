@@ -306,11 +306,13 @@ in
     ignores = [
       "__pycache__/"
       ".cache/"
+      ".code_workspace"
       ".coverage"
       ".envrc"
       ".idea/"
       ".mise.toml"
       ".mypy_cache/"
+      ".pdm_python"
       ".pytest_cache/"
       ".rtx.toml"
       ".venv/"
@@ -325,9 +327,18 @@ in
     ];
 
     extraConfig = {
-      branch = {
-        sort = "-committerdate";
-      };
+      branch.autosetuprebase = "always";
+      branch.sort = "-committerdate";
+      diff.tool = "meld";
+      difftool.meld.cmd = "meld \"$LOCAL\" \"$REMOTE\"";
+      difftool.prompt = false;
+      fetch.prune = true;
+      fetch.pruneTags = true;
+      init.defaultBranch = "master";
+      merge.ff = "only";
+      merge.tool = "meld";
+      pull.rebase = "merges";
+      push.default = "matching";
       # commit = {
       #   gpgSign = true;
       # };
@@ -338,15 +349,6 @@ in
       #     allowedSignersFile = "~/.config/git/allowed_signers";
       #   };
       # };
-      init = {
-        defaultBranch = "master";
-      };
-      push = {
-        default = "matching";
-      };
-      pull = {
-        rebase = true;
-      };
       # tag = {
       #   gpgSign = true;
       # };
