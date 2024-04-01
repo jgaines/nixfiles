@@ -9,7 +9,7 @@
     # some of this stuff should be able to be determined from the system.
     systemSettings = {
       system = "x86_64-linux";
-      hostname = "jgaines-test-nixos";  # can we read this from the system?
+      hostname = "jgaines-test-nixos";
       profile = "personal";
       timezone = "America/Detroit";
       locale = "en_US.UTF-8";

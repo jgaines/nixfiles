@@ -136,6 +136,7 @@ in
   home.sessionVariables = {
     EDITOR = "edit";
     LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
+    LESS = "FRX";  # F: quit if one screen, R: pass ANSI color and OSC hyperlinks through, X: no init
     # NIX_SYSTEM = "${builtins.currentSystem}";
   };
 
@@ -338,7 +339,8 @@ in
       merge.ff = "only";
       merge.tool = "meld";
       pull.rebase = "merges";
-      push.default = "matching";
+      push.default = "simple";
+      credential.helper = "cache --timeout=7200";
       # commit = {
       #   gpgSign = true;
       # };
