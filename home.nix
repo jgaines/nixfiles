@@ -3,6 +3,7 @@ let
   # These two are here to install a database for the command-not-found program.
   # To find the url go to https://releases.nixos.org, pick a version
   # and drill down til you find the nixexprs.tar.xz file.
+  # These might not be needed on a NixOS system.
   nixos_tarball = pkgs.fetchzip {
     url = "https://releases.nixos.org/nixos/23.11/nixos-23.11.928.50aa30a13c4a/nixexprs.tar.xz";
     sha256 = "sha256-LDuZkDYZHDYPjJRd6D6NgOx99BNFtFCWfvym2Ishqyo=";
@@ -40,17 +41,29 @@ in
     discord
     duf
     dust
-    # gh
     git-extras
     git-up
-    # github-copilot-cli
+    glow
+    graphicsmagick  # might want graphicsmagick-imagemagick-compat instead (too?)
+    highlight
+    jc
+    # libreoffice  # (office)
     magic-wormhole
     meld
+    multitail
     neofetch
     (nerdfonts.override { fonts = [ "DroidSansMono" "JetBrainsMono" "SourceCodePro" ]; })
+    nvtopPackages.nvidia  # should probably go in some special nvidia file
+    # openconnect  # (office) vpn
+    # openldap  # (office) openldapsearch
     nix-direnv
+    pdsh      # (office) for parallel ssh
     peco
+    # powertop  # for laptops
+    # pssh      # (office) for parallel ssh
+    # remmina   # (office)
     ripgrep
+    rmlint    
     silver-searcher
     tldr
 
@@ -136,8 +149,9 @@ in
   home.sessionVariables = {
     EDITOR = "edit";
     LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
-    LESS = "FRX";  # F: quit if one screen, R: pass ANSI color and OSC hyperlinks through, X: no init
-    # NIX_SYSTEM = "${builtins.currentSystem}";
+    # -g: line numbers, -i: ignore search case, -M: long prompt, -R: ANSI color, -S: chop long lines,
+    # -w: wait for keypress, -X: no init, -z-4: 4 lines of context
+    LESS = "-F -g -i -M -R -S -w -X -z-4";
   };
 
   home.shellAliases = {
@@ -186,7 +200,7 @@ in
 
   programs.command-not-found = {
     enable = true;
-    dbPath = programs-sqlite;
+    # dbPath = programs-sqlite;
   };
 
   programs.chromium = {

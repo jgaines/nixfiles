@@ -117,8 +117,10 @@
     curl
     eza
     git
+    git-lfs
     htop
     jq
+    moreutils
     nvim-pkg
     ripgrep
     silver-searcher
