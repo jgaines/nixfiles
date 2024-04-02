@@ -200,7 +200,7 @@ in
 
   programs.command-not-found = {
     enable = true;
-    # dbPath = programs-sqlite;
+    dbPath = programs-sqlite;
   };
 
   programs.chromium = {
