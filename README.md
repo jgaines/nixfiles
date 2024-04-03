@@ -35,6 +35,7 @@ Just a bunch of random links which I'm using as documentation, inspiration, etc.
 * https://colmena.cli.rs/unstable/introduction.html
 * https://librephoenix.com/2023-10-08-why-you-should-use-nixos.html
 * https://mynixos.com/
+* https://blog.replit.com/nixpkgs-search
 
 ### Dotfile Repos
 
