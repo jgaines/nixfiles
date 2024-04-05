@@ -48,7 +48,8 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
   programs.chromium.enablePlasmaBrowserIntegration = true;
 
   # Resize display to match client window
@@ -121,6 +122,7 @@
     htop
     jq
     moreutils
+    (nerdfonts.override { fonts = [ "DroidSansMono" "JetBrainsMono" "SourceCodePro" ]; })
     nvim-pkg
     ripgrep
     silver-searcher
