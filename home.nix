@@ -61,6 +61,8 @@ in
     peco
     # powertop  # for laptops
     # pssh      # (office) for parallel ssh
+    pwgen
+    pwgen-secure
     # remmina   # (office)
     ripgrep
     rmlint    
@@ -160,6 +162,7 @@ in
     ll = "ls -l";
     la = "ls -a";
     lla = "ls -la";
+    lrt = "ls -l -snewest";
     tree = "eza --tree";
     cat = "bat";
 
@@ -171,7 +174,7 @@ in
     open = "xdg-open";
 
     # TODO: no clue what this does
-    opget = "op item get \"$(op item list --format=json | jq -r '.[].title' | fzf)\"";
+    #opget = "op item get \"$(op item list --format=json | jq -r '.[].title' | fzf)\"";
 
     # TODO: Fix this so it works even if python is not installed.
     speedtest = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -";
@@ -470,7 +473,17 @@ programs.zsh = {
       U = "|uniq";
       X = "|xargs";
     };
+
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "colored-man-pages"
+        # "git"
+        # "zsh-autosuggestions"
+        # "zsh-syntax-highlighting"
+      ];
+    };
+    
   };
-  # environment.pathsToLink = [ "/share/zsh" ];
 
 }

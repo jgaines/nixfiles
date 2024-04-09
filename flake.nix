@@ -7,6 +7,7 @@
     # TODO: figure out how to get as much of this as possible from the system.
     # Even if we're logged into a live ISO environment, doing a manual install,
     # some of this stuff should be able to be determined from the system.
+    # Not sure that's possible, something about impure vs. pure builds.
     systemSettings = {
       system = "x86_64-linux";
       hostname = "jgaines-test-nixos";
