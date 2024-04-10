@@ -36,6 +36,7 @@ Just a bunch of random links which I'm using as documentation, inspiration, etc.
 * https://librephoenix.com/2023-10-08-why-you-should-use-nixos.html
 * https://mynixos.com/
 * https://blog.replit.com/nixpkgs-search
+* [Shell History Is Your Best Productivity Tool](https://martinheinz.dev/blog/110)
 
 ### Dotfile Repos
 
